@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      MONGODB_CONNECTION_STRING: ${MONGODB_CONNECTION_STRING:-mongodb://host.docker.internal:27017}
+      MONGODB_DATABASE_NAME: ${MONGODB_DATABASE_NAME:-marketpulse}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-}
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:4173"
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:5000}
+    depends_on:
+      - backend

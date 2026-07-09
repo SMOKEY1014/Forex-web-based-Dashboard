@@ -1,0 +1,6 @@
+[
+  { "name": "US100", "market": "US100", "maximumCompanies": 10 },
+  { "name": "US30", "market": "US30", "maximumCompanies": 11 },
+  { "name": "GER40", "market": "GER40", "maximumCompanies": 10 },
+  { "name": "XAUUSD", "market": "XAUUSD", "maximumCompanies": 10 }
+]
