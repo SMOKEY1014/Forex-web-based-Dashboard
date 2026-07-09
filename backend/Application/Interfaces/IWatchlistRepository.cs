@@ -9,4 +9,6 @@ public interface IWatchlistRepository
     Task<Watchlist?> GetByMarketAsync(string market, CancellationToken cancellationToken);
 
     Task<Watchlist> UpsertAsync(Watchlist watchlist, CancellationToken cancellationToken);
+
+    Task<bool> DeleteAsync(string market, CancellationToken cancellationToken);
 }

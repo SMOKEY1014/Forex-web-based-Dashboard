@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getLatestMarkets, getMarketHistory } from "../services/marketService";
+import { getEconomicCalendar, getLatestMarkets, getMarketHistory } from "../services/marketService";
 
 export const useMarkets = () =>
   useQuery({
@@ -13,4 +13,12 @@ export const useMarketHistory = (market: string) =>
     queryKey: ["markets", market, "history"],
     queryFn: () => getMarketHistory(market),
     enabled: Boolean(market)
+  });
+
+export const useEconomicCalendar = (market: string) =>
+  useQuery({
+    queryKey: ["calendar", market],
+    queryFn: () => getEconomicCalendar(market),
+    enabled: Boolean(market),
+    refetchInterval: 60_000
   });

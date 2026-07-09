@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useQueryClient } from "@tanstack/react-query";
-import { API_BASE } from "../../services/http";
-import type { MarketSnapshot } from "../../types/market";
+import { API_BASE, TOKEN_STORAGE_KEY } from "../../services/http";
+import type { MarketAlert, MarketSnapshot } from "../../types/market";
+import { useAlertStore } from "../../store/alertStore";
 
 export const useSignalRUpdates = () => {
   const queryClient = useQueryClient();
+  const pushAlert = useAlertStore((state) => state.pushAlert);
 
   useEffect(() => {
     const connection = new HubConnectionBuilder()
-      .withUrl(`${API_BASE}/hubs/markets`)
+      .withUrl(`${API_BASE}/hubs/markets`, {
+        accessTokenFactory: () => localStorage.getItem(TOKEN_STORAGE_KEY) ?? ""
+      })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Warning)
       .build();
@@ -25,10 +29,19 @@ export const useSignalRUpdates = () => {
       });
     });
 
+    connection.on("market.alert", (alert: MarketAlert) => {
+      pushAlert(alert);
+      if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+        new Notification(`${alert.market}: ${alert.type}`, {
+          body: alert.message
+        });
+      }
+    });
+
     connection.start().catch(() => undefined);
 
     return () => {
       connection.stop().catch(() => undefined);
     };
-  }, [queryClient]);
+  }, [pushAlert, queryClient]);
 };

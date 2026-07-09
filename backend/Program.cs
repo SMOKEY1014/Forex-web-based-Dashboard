@@ -80,11 +80,16 @@ builder.Services.AddSignalR();
 builder.Services.AddHealthChecks();
 
 builder.Services.AddSingleton<IWatchlistRepository, MongoWatchlistRepository>();
+builder.Services.AddSingleton<IWatchlistVersionRepository, MongoWatchlistVersionRepository>();
 builder.Services.AddSingleton<IMarketSnapshotRepository, MongoMarketSnapshotRepository>();
 builder.Services.AddSingleton<IMarketDataProvider, StubMarketDataProvider>();
+builder.Services.AddSingleton<IMarketDataProvider, FallbackMarketDataProvider>();
 builder.Services.AddSingleton<IProviderSelector, ProviderSelector>();
+builder.Services.AddSingleton<IEconomicCalendarService, InMemoryEconomicCalendarService>();
 builder.Services.AddSingleton<WatchlistService>();
+builder.Services.AddSingleton<AdminWatchlistService>();
 builder.Services.AddSingleton<MarketIntelligenceService>();
+builder.Services.AddSingleton<AlertService>();
 builder.Services.AddHostedService<MarketRefreshWorker>();
 
 var app = builder.Build();

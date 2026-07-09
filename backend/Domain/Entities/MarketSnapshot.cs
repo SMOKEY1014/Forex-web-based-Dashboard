@@ -31,7 +31,15 @@ public sealed class MarketSnapshot
 
     public Dictionary<string, decimal> FactorBreakdown { get; init; } = [];
 
+    public Dictionary<string, decimal> FactorScores { get; init; } = [];
+
+    public List<MarketAlert> Alerts { get; init; } = [];
+
+    public int EconomicEventsCount { get; init; }
+
     public DateTimeOffset UpdatedAtUtc { get; init; } = DateTimeOffset.UtcNow;
 
     public bool IsExtendedHours { get; init; }
+
+    public string ProviderUsed { get; init; } = "stub";
 }

@@ -28,6 +28,13 @@ public sealed class MongoWatchlistRepository(IMongoDatabase database) : IWatchli
         return watchlist;
     }
 
+    public async Task<bool> DeleteAsync(string market, CancellationToken cancellationToken)
+    {
+        await EnsureIndexesAsync(cancellationToken);
+        var result = await _collection.DeleteOneAsync(x => x.Market == market, cancellationToken);
+        return result.DeletedCount > 0;
+    }
+
     private async Task EnsureIndexesAsync(CancellationToken cancellationToken)
     {
         if (Interlocked.Exchange(ref _indexInitialized, 1) == 1)

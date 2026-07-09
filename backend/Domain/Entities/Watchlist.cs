@@ -30,4 +30,6 @@ public sealed class Watchlist
     public DateTimeOffset CreatedUtc { get; init; } = DateTimeOffset.UtcNow;
 
     public DateTimeOffset ModifiedUtc { get; set; } = DateTimeOffset.UtcNow;
+
+    public int Version { get; set; } = 1;
 }
