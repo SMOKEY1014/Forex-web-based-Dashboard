@@ -7,7 +7,7 @@ public sealed class Watchlist
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; init; } = string.Empty;
+    public string Id { get; init; } = MongoDB.Bson.ObjectId.GenerateNewId().ToString();;
 
     public required string Name { get; init; }
 
